@@ -19,6 +19,9 @@ class Cal implements ActionListener {
     Button b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bPercentage, bAddition, bSubtraction, bMultiplication, bDivision, bPlusOrMinus, bCE, bC, bEquals,
             bClear, bReciprocal, bSquare, bSquareRoot, bPoint;
 
+    String finalValue, storedValue, operation;
+    Double finalDoubleValue, storedDoubleValue, result;
+
     Cal() {
         Frame frame = new Frame();
         frame.addWindowListener(new Close());
@@ -29,8 +32,7 @@ class Cal implements ActionListener {
         frame.setLocationRelativeTo(null);
 
         Font font1 = new Font("Poppins", Font.BOLD, 30);
-        Font font2 = new Font("Quicksand", Font.BOLD, 30);
-        Font font3 = new Font("Quicksand", Font.BOLD, 40);
+        Font font2 = new Font("Quicksand", Font.BOLD, 40);
 
         MenuBar mb = new MenuBar();
 
@@ -58,7 +60,7 @@ class Cal implements ActionListener {
         p2.setBackground(Color.black);
 
         tf = new TextField(20);
-        tf.setFont(font3);
+        tf.setFont(font2);
         tf.setEditable(true);
         tf.setForeground(Color.black);
         tf.setBackground(Color.white);
@@ -166,6 +168,31 @@ class Cal implements ActionListener {
         p2.add(bPoint);
         p2.add(bEquals);
 
+        bPercentage.addActionListener(this);
+        bCE.addActionListener(this);
+        bC.addActionListener(this);
+        bClear.addActionListener(this);
+        bReciprocal.addActionListener(this);
+        bSquare.addActionListener(this);
+        bSquareRoot.addActionListener(this);
+        bDivision.addActionListener(this);
+        b7.addActionListener(this);
+        b8.addActionListener(this);
+        b9.addActionListener(this);
+        bMultiplication.addActionListener(this);
+        b4.addActionListener(this);
+        b5.addActionListener(this);
+        b6.addActionListener(this);
+        bSubtraction.addActionListener(this);
+        b1.addActionListener(this);
+        b2.addActionListener(this);
+        b3.addActionListener(this);
+        bAddition.addActionListener(this);
+        bPlusOrMinus.addActionListener(this);
+        b0.addActionListener(this);
+        bPoint.addActionListener(this);
+        bEquals.addActionListener(this);
+
         frame.add(p1, BorderLayout.NORTH);
         frame.add(p2, BorderLayout.SOUTH);
 
@@ -174,7 +201,52 @@ class Cal implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (tf.getText().equals("0")) {
+            tf.setText("");
+        }
 
+        Object source = e.getSource();
+
+        if (source.equals(b0)) {
+            tf.setText(tf.getText() + b0.getLabel());
+        } else if (source.equals(b1)) {
+            tf.setText(tf.getText() + b1.getLabel());
+        } else if (source.equals(b2)) {
+            tf.setText(tf.getText() + b2.getLabel());
+        } else if (source.equals(b3)) {
+            tf.setText(tf.getText() + b3.getLabel());
+        } else if (source.equals(b4)) {
+            tf.setText(tf.getText() + b4.getLabel());
+        } else if (source.equals(b5)) {
+            tf.setText(tf.getText() + b5.getLabel());
+        } else if (source.equals(b6)) {
+            tf.setText(tf.getText() + b6.getLabel());
+        } else if (source.equals(b7)) {
+            tf.setText(tf.getText() + b7.getLabel());
+        } else if (source.equals(b8)) {
+            tf.setText(tf.getText() + b8.getLabel());
+        } else if (source.equals(b9)) {
+            tf.setText(tf.getText() + b9.getLabel());
+        } else if (source.equals(bAddition)) {
+            finalValue = tf.getText();
+            operation = bAddition.getLabel();
+            tf.setText("");
+        } else if (source.equals(bSubtraction)) {
+            finalValue = tf.getText();
+            operation = bSubtraction.getLabel();
+            tf.setText("");
+        } else if (source.equals(bEquals)) {
+            storedValue = tf.getText();
+            finalDoubleValue = Double.parseDouble(finalValue);
+            storedDoubleValue = Double.parseDouble(storedValue);
+            if (operation.equals(bAddition.getLabel())) {
+                result = finalDoubleValue + storedDoubleValue;
+                tf.setText(String.valueOf(result));
+            } else if (operation.equals(bSubtraction.getLabel())) {
+                result = finalDoubleValue - storedDoubleValue;
+                tf.setText(String.valueOf(result));
+            }
+        }
     }
 }
 
