@@ -16,11 +16,16 @@ class Close extends WindowAdapter {
 class Cal implements ActionListener {
     TextField tf;
 
-    Button b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bPercentage, bAddition, bSubtraction, bMultiplication, bDivision, bPlusOrMinus, bCE, bC, bEquals,
-            bClear, bReciprocal, bSquare, bSquareRoot, bPoint;
+    Button b0, b1, b2, b3, b4, b5, b6, b7, b8, b9,
+            bPercentage, bAddition, bSubtraction, bMultiplication, bDivision, bPlusOrMinus, bClear, bEquals,
+            bBackSpace, bReciprocal, bSquare, bSquareRoot, bPoint, bExponent, bFactorial,
+            bMemoryClear, bMemoryRecall, bMemoryStore, bMemoryPlus, bMemoryMinus;
 
     String finalValue, storedValue, operation;
     Double finalDoubleValue, storedDoubleValue, result;
+
+    String memoryStoredValue;
+    Double memoryStoredDoubleValue;
 
     Cal() {
         Frame frame = new Frame();
@@ -28,7 +33,7 @@ class Cal implements ActionListener {
         frame.setBackground(Color.yellow);
         frame.setResizable(false);
         frame.setTitle("My Calculator");
-        frame.setSize(500, 800);
+        frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
 
         Font font1 = new Font("Poppins", Font.BOLD, 30);
@@ -83,15 +88,21 @@ class Cal implements ActionListener {
         bMultiplication = new Button("*");
         bDivision = new Button("/");
         bPlusOrMinus = new Button("+/-");
-        bCE = new Button("CE");
-        bC = new Button("C");
+        bClear = new Button("Clear");
         bPercentage = new Button("%");
         bEquals = new Button("=");
-        bClear = new Button("Clear");
+        bBackSpace = new Button("BackSpace");
         bReciprocal = new Button("1/x");
         bSquare = new Button("x^2");
         bSquareRoot = new Button("sqrt");
+        bExponent = new Button("x^y");
         bPoint = new Button(".");
+        bMemoryClear = new Button("MC");
+        bMemoryRecall = new Button("MR");
+        bMemoryStore = new Button("MS");
+        bMemoryPlus = new Button("M+");
+        bMemoryMinus = new Button("M-");
+        bFactorial = new Button("!");
 
         b0.setBackground(Color.white);
         b1.setBackground(Color.white);
@@ -108,15 +119,21 @@ class Cal implements ActionListener {
         bMultiplication.setBackground(Color.white);
         bDivision.setBackground(Color.white);
         bPlusOrMinus.setBackground(Color.white);
-        bCE.setBackground(Color.white);
-        bC.setBackground(Color.white);
+        bClear.setBackground(Color.white);
         bPercentage.setBackground(Color.white);
         bEquals.setBackground(Color.white);
-        bClear.setBackground(Color.white);
+        bBackSpace.setBackground(Color.white);
         bReciprocal.setBackground(Color.white);
         bSquare.setBackground(Color.white);
         bSquareRoot.setBackground(Color.white);
+        bExponent.setBackground(Color.white);
         bPoint.setBackground(Color.white);
+        bMemoryClear.setBackground(Color.white);
+        bMemoryRecall.setBackground(Color.white);
+        bMemoryStore.setBackground(Color.white);
+        bMemoryPlus.setBackground(Color.white);
+        bMemoryMinus.setBackground(Color.white);
+        bFactorial.setBackground(Color.white);
 
         b0.setFont(font1);
         b1.setFont(font1);
@@ -133,45 +150,62 @@ class Cal implements ActionListener {
         bMultiplication.setFont(font1);
         bDivision.setFont(font1);
         bPlusOrMinus.setFont(font1);
-        bCE.setFont(font1);
-        bC.setFont(font1);
-        bPercentage.setFont(font1);
-        bEquals.setFont(font1);
         bClear.setFont(font1);
+        bPercentage.setFont(font1);
+        bExponent.setFont(font1);
+        bEquals.setFont(font1);
+        bBackSpace.setFont(font1);
         bReciprocal.setFont(font1);
         bSquare.setFont(font1);
         bSquareRoot.setFont(font1);
         bPoint.setFont(font1);
+        bMemoryClear.setFont(font1);
+        bMemoryRecall.setFont(font1);
+        bMemoryStore.setFont(font1);
+        bMemoryPlus.setFont(font1);
+        bMemoryMinus.setFont(font1);
+        bFactorial.setFont(font1);
 
-        p2.add(bPercentage);
-        p2.add(bCE);
-        p2.add(bC);
+        // first row
+        p2.add(bMemoryClear);
+        p2.add(bMemoryRecall);
+        p2.add(bMemoryStore);
+        p2.add(bMemoryPlus);
+        p2.add(bMemoryMinus);
+        // second row
         p2.add(bClear);
-        p2.add(bReciprocal);
-        p2.add(bSquare);
-        p2.add(bSquareRoot);
+        p2.add(bPercentage);
+        p2.add(bExponent);
         p2.add(bDivision);
+        p2.add(bReciprocal);
+        // third row
         p2.add(b7);
         p2.add(b8);
         p2.add(b9);
         p2.add(bMultiplication);
+        p2.add(bSubtraction);
+        // fourth row
         p2.add(b4);
         p2.add(b5);
         p2.add(b6);
-        p2.add(bSubtraction);
+        p2.add(bAddition);
+        p2.add(bEquals);
+        // fifth row
         p2.add(b1);
         p2.add(b2);
         p2.add(b3);
-        p2.add(bAddition);
         p2.add(bPlusOrMinus);
+        p2.add(bBackSpace);
+        // sixth row
         p2.add(b0);
         p2.add(bPoint);
-        p2.add(bEquals);
+        p2.add(bSquareRoot);
+        p2.add(bSquare);
+        p2.add(bFactorial);
 
         bPercentage.addActionListener(this);
-        bCE.addActionListener(this);
-        bC.addActionListener(this);
         bClear.addActionListener(this);
+        bBackSpace.addActionListener(this);
         bReciprocal.addActionListener(this);
         bSquare.addActionListener(this);
         bSquareRoot.addActionListener(this);
@@ -192,6 +226,14 @@ class Cal implements ActionListener {
         b0.addActionListener(this);
         bPoint.addActionListener(this);
         bEquals.addActionListener(this);
+        bExponent.addActionListener(this);
+        bFactorial.addActionListener(this);
+        bMemoryClear.addActionListener(this);
+        bMemoryRecall.addActionListener(this);
+        bMemoryStore.addActionListener(this);
+        bMemoryPlus.addActionListener(this);
+        bMemoryMinus.addActionListener(this);
+
 
         frame.add(p1, BorderLayout.NORTH);
         frame.add(p2, BorderLayout.SOUTH);
@@ -230,11 +272,82 @@ class Cal implements ActionListener {
         } else if (source.equals(bAddition)) {
             finalValue = tf.getText();
             operation = bAddition.getLabel();
-            tf.setText("");
+            tf.setText("0");
         } else if (source.equals(bSubtraction)) {
             finalValue = tf.getText();
             operation = bSubtraction.getLabel();
+            tf.setText("0");
+        } else if (source.equals(bMultiplication)) {
+            finalValue = tf.getText();
+            operation = bMultiplication.getLabel();
+            tf.setText("0");
+        } else if (source.equals(bDivision)) {
+            finalValue = tf.getText();
+            operation = bDivision.getLabel();
+            tf.setText("0");
+        } else if (source.equals(bExponent)) {
+            finalValue = tf.getText();
+            operation = bExponent.getLabel();
+            tf.setText("0");
+        } else if (source.equals(bReciprocal)) {
+            finalValue = tf.getText();
+            finalDoubleValue = Double.parseDouble(finalValue);
+            result = 1 / finalDoubleValue;
+            tf.setText(String.valueOf(result));
+        } else if (source.equals(bSquare)) {
+            finalValue = tf.getText();
+            finalDoubleValue = Double.parseDouble(finalValue);
+            result = Math.pow(finalDoubleValue, 2);
+            tf.setText(String.valueOf(result));
+        } else if (source.equals(bPlusOrMinus)) {
+            finalValue = tf.getText();
+            finalDoubleValue = Double.parseDouble(finalValue);
+            result = -finalDoubleValue;
+            tf.setText(String.valueOf(result));
+        } else if (source.equals(bFactorial)) {
+            finalValue = tf.getText();
+            finalDoubleValue = Double.parseDouble(finalValue);
+            double result = 1;
+            for (int i = 1; i <= finalDoubleValue; i++) {
+                result *= i;
+            }
+            tf.setText(String.valueOf(result));
+        } else if (source.equals(bClear)) {
+            tf.setText("0");
+        } else if (source.equals(bPoint)) {
+            tf.setText(tf.getText() + bPoint.getLabel());
+        } else if (source.equals(bBackSpace)) {
+            String s = tf.getText();
             tf.setText("");
+            for (int i = 0; i < s.length() - 1; i++) {
+                tf.setText(tf.getText() + s.charAt(i));
+            }
+        } else if (source.equals(bSquareRoot)) {
+            finalValue = tf.getText();
+            finalDoubleValue = Double.parseDouble(finalValue);
+            result = Math.sqrt(finalDoubleValue);
+            tf.setText(String.valueOf(result));
+        } else if (source.equals(bPercentage)) {
+            finalValue = tf.getText();
+            finalDoubleValue = Double.parseDouble(finalValue);
+            result = finalDoubleValue / 100;
+            tf.setText(String.valueOf(result));
+        } else if (source.equals(bMemoryClear)) {
+            memoryStoredValue = "";
+            memoryStoredDoubleValue = 0.0;
+        } else if (source.equals(bMemoryStore)) {
+            memoryStoredValue = tf.getText();
+            memoryStoredDoubleValue = Double.parseDouble(memoryStoredValue);
+        } else if (source.equals(bMemoryRecall)) {
+            tf.setText(String.valueOf(memoryStoredDoubleValue));
+        } else if (source.equals(bMemoryPlus)) {
+            storedValue = tf.getText();
+            storedDoubleValue = Double.parseDouble(storedValue);
+            memoryStoredDoubleValue += storedDoubleValue;
+        } else if (source.equals(bMemoryMinus)) {
+            storedValue = tf.getText();
+            storedDoubleValue = Double.parseDouble(storedValue);
+            memoryStoredDoubleValue -= storedDoubleValue;
         } else if (source.equals(bEquals)) {
             storedValue = tf.getText();
             finalDoubleValue = Double.parseDouble(finalValue);
@@ -244,6 +357,15 @@ class Cal implements ActionListener {
                 tf.setText(String.valueOf(result));
             } else if (operation.equals(bSubtraction.getLabel())) {
                 result = finalDoubleValue - storedDoubleValue;
+                tf.setText(String.valueOf(result));
+            } else if (operation.equals(bMultiplication.getLabel())) {
+                result = finalDoubleValue * storedDoubleValue;
+                tf.setText(String.valueOf(result));
+            } else if (operation.equals(bDivision.getLabel())) {
+                result = finalDoubleValue / storedDoubleValue;
+                tf.setText(String.valueOf(result));
+            } else if (operation.equals(bExponent.getLabel())) {
+                result = Math.pow(finalDoubleValue, storedDoubleValue);
                 tf.setText(String.valueOf(result));
             }
         }
