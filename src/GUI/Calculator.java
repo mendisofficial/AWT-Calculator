@@ -30,10 +30,10 @@ class Cal implements ActionListener {
     Cal() {
         Frame frame = new Frame();
         frame.addWindowListener(new Close());
-        frame.setBackground(Color.yellow);
+        frame.setBackground(Color.pink);
         frame.setResizable(false);
         frame.setTitle("My Calculator");
-        frame.setSize(500, 500);
+        frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
 
         Font font1 = new Font("Poppins", Font.BOLD, 30);
